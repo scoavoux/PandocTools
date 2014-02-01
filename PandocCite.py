@@ -1,7 +1,6 @@
 import sublime, sublime_plugin
 import re
 import codecs
-import bibtexparser
 
 ## TODO
 ### Afficher en propre plutôt qu'en latex (par regex ou package python)
