@@ -1,0 +1,4 @@
+{
+	"bibfiles": [""],
+    "cite_panel_format": ["{author_short} {year} - {title_short} ({keyword})","{title}"]
+}
