@@ -1,0 +1,3 @@
+[
+	{ "keys": ["control+<"], "command": "pandoc_cite" },
+]
