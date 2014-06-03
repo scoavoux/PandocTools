@@ -1,0 +1,16 @@
+#bbbbbb very light gray
+#CFCFC2 very very light gray
+#75715E light gray
+
+#66D9EF light blue
+#9D550F brown
+#A6E22E light green
+#AE81FF light purple
+#E6DB74 light yellow
+#F92672 bright pink
+#FD971F bright orange
+#FFE792 lighter yellow
+
+#fffff8 lighter whitish
+#F8F8F0 whitish
+#F8F8F2 whitish
