@@ -78,6 +78,41 @@ def get_cite_completions(view):
 
 	return  zip(keywords, titles, authors, years, authors_short, titles_short, journals)
 
+def prefilter_completions(point,line,completions):
+	# La clé est un début d'entrée de l'utilisateur,
+	# utilisée pour pré-filtrer les match
+
+	# On cherche si le curseur est précédé de : [@.*
+	# Comme on veut matcher depuis la fin de la ligne, 
+	# On renverse ligne et regex
+	reversed_line = line[::-1]
+	cite_trigger = re.compile("\]?(.+?@?)\[")
+
+	# Match
+	match = cite_trigger.match(reversed_line)
+	if match :
+		# On récupère le groupe qui constitue la clé
+		key = match.groups()[0][::-1]
+
+		# On calcule le point qui débutera la région à remplacer
+		beginning = point-len(key)
+
+		key = key.lstrip("@")
+
+		# Filtrage, on ignore la case
+		completions = [comp for comp in completions if any(elem and (key.lower() in elem.lower()) for elem in comp)]
+
+		if not completions :
+			# Message d'erreur
+			# Mot clé = key : n'insèrera ni ne supprimera rien
+			completions = [(key,"Aucune entree bibliographique ne correspond","Erreur","","","Pas de correspondance","")]
+	else:
+		# Pas de clé, remplacement simple
+		beginning = point
+		key = ""
+
+
+	return completions,beginning
 
 class PandocCiteCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
@@ -89,25 +124,26 @@ class PandocCiteCommand(sublime_plugin.TextCommand):
 		if not view.score_selector(point,"text.markdown"):
 			return
 
-		completions = get_cite_completions(view)
-		#view.insert(edit, point, "@"+str(completions[1320][0]))
+		line = view.substr(sublime.Region(view.line(point).a, point))
+		completions_all = get_cite_completions(view)
+
+		completions,beginning = prefilter_completions(point,line,completions_all)
 
 		def on_done(i):
 
 			if i<0:
 				return
 
-			cite = "@" + str(completions[i][0])
-			view.run_command("insert_cite",{"point":point,"ins":cite})			
+			cite = "@" + completions[i][0]
+			view.run_command("insert_cite",{"a":beginning,"b":point,"ins":cite})			
+		
 
 		view.window().show_quick_panel([[str.format(keyword=keyword, title=title, author=author, year=year, author_short=author_short, title_short=title_short, journal=journal) for str in cite_panel_format] \
 				for (keyword, title, author, year, author_short, title_short,journal) in completions], on_done)
 		#view.window().show_quick_panel("123",on_done)
 
 class InsertCiteCommand(sublime_plugin.TextCommand):
-	def run(self,edit,point,ins):
-		if len(self.view.sel()[0]) == 0:
-			self.view.insert(edit, point,ins)
-		else:
-			self.view.replace(edit,self.view.sel()[0],ins)
+	def run(self,edit,a,b,ins):
+			region = sublime.Region(a,b)
+			self.view.replace(edit,region,ins)
 
