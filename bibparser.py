@@ -65,7 +65,7 @@ def parse_bibtex(filenames,exceptions=[]):
         line = bibf.readline()
         while line :
             line = line.strip("\n")
-            if line[0] == "@":
+            if line and line[0] == "@":
                 type_and_key = line.strip(",").split("{")
                 if len(type_and_key) == 2 and not type_and_key[0] in exceptions:
                     keyword = type_and_key[1]
