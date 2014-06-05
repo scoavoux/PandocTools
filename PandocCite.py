@@ -78,34 +78,42 @@ def get_cite_completions(view):
 
 	return  zip(keywords, titles, authors, years, authors_short, titles_short, journals)
 
-def prefilter_completions(point,line,completions):
+def prefilter_completions(point,line,all_completions):
 	# La clé est un début d'entrée de l'utilisateur,
 	# utilisée pour pré-filtrer les match
 
-	# On cherche si le curseur est précédé de : [@.*
+	# On cherche si le curseur est précédé d'une éventuelle arobase et d'un virgule ou un crochet
+	# [@toto,@tata -> on veut capturer "@tata"
+	# [toto -> on veut capturer "toto"
+	# [@toto,tata -> on veut capturer "tata"
+	# [@toto	  -> on veut capturer "@toto"
 	# Comme on veut matcher depuis la fin de la ligne, 
 	# On renverse ligne et regex
 	reversed_line = line[::-1]
-	cite_trigger = re.compile("\]?(.+?@?)\[")
+	cite_trigger = re.compile("([^,]+?@?)(,.+?\[|\[)")
 
 	# Match
 	match = cite_trigger.match(reversed_line)
 	if match :
 		# On récupère le groupe qui constitue la clé
+		# Le second groupe contient ",(...)[" ou '[', il est inutile
 		key = match.groups()[0][::-1]
 
-		# On calcule le point qui débutera la région à remplacer
+		# On calcule le point qui débutera la region a remplacer (arobase)
 		beginning = point-len(key)
 
+		# L'arobase ne nous sert plus à rien
 		key = key.lstrip("@")
 
 		# Filtrage, on ignore la case
-		completions = [comp for comp in completions if any(elem and (key.lower() in elem.lower()) for elem in comp)]
+		completions = [comp for comp in all_completions if any(elem and (key.lower() in elem.lower()) for elem in comp)]
 
 		if not completions :
 			# Message d'erreur
-			# Mot clé = key : n'insèrera ni ne supprimera rien
-			completions = [(key,"Aucune entree bibliographique ne correspond","Erreur","","","Pas de correspondance","")]
+			bibparser.warning("Aucune entree bibliographique ne correspond au mot cle. Mot cle ignore.")
+
+			# utiliser la liste complète
+			completions = all_completions
 	else:
 		# Pas de clé, remplacement simple
 		beginning = point
