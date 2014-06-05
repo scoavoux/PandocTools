@@ -146,7 +146,7 @@ class PandocCiteCommand(sublime_plugin.TextCommand):
 		completion_strings = [[str.format(keyword=keyword, title=title, author=author, year=year, author_short=author_short, title_short=title_short, journal=journal) for str in cite_panel_format] \
 				for (keyword, title, author, year, author_short, title_short,journal) in completions]
 
-		toto = view.window().show_quick_panel(completion_strings, on_done)
+		view.window().show_quick_panel(completion_strings, on_done)
 
 
 ## This is because "Edit objects may not be used after the TextCommand's run method has returned"
