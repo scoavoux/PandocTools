@@ -1,36 +1,34 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-
-import codecs
 import sublime
 
 
 def decode_latex_string(term):
-    translate_table = [(u'{',u''),
-                        (u'}',u''),
-                        (u'\\&',u'&'),
-                        (u'\\\'E',u'É'),
-                        (u'\\`E',u'È'),
-                        (u'\\`A',u'À'),
-                        (u'\\OE',u'Œ'),
-                        (u'\\^E',u'Ê'),
-                        (u'\\oe',u'œ'),
-                        (u'\\¨o',u'ö'),
-                        (u'\\¨a',u'ä'),
-                        (u'\\¨i',u'ï'),
-                        (u'\\^i',u'î'),
-                        (u'\\^o',u'ô'),
-                        (u'\\¨a',u'ä'),
-                        (u'{\\textquoteright}', u''),
-                        (u'\\`e',u'è'),
-                        (u'\\\'e',u'é'),
-                        (u'\\`a',u'à'),
-                        (u'\^e',u'ê'),
-                        (u'\\guillemotright',u" »"),
-                        (u'\\guillemotleft',u"« "),
-                        (u'\^u',u'û'),
-                        (u'\`u',u'ù'),
-                        (u'\^a',u'â')]
+    translate_table = [('{',''),
+                        ('}',''),
+                        ('\\&','&'),
+                        ('\\\'E','É'),
+                        ('\\`E','È'),
+                        ('\\`A','À'),
+                        ('\\OE','Œ'),
+                        ('\\^E','Ê'),
+                        ('\\oe','œ'),
+                        ('\\¨o','ö'),
+                        ('\\¨a','ä'),
+                        ('\\¨i','ï'),
+                        ('\\^i','î'),
+                        ('\\^o','ô'),
+                        ('\\¨a','ä'),
+                        ('{\\textquoteright}', ''),
+                        ('\\`e','è'),
+                        ('\\\'e','é'),
+                        ('\\`a','à'),
+                        ('\^e','ê'),
+                        ('\\guillemotright'," »"),
+                        ('\\guillemotleft',"« "),
+                        ('\^','û'),
+                        ('\`','ù'),
+                        ('\^a','â')]
     for key,val in translate_table :
         term = term.replace(key,val)
     return term
@@ -58,7 +56,7 @@ def parse_bibtex(filenames,exceptions=[]):
     for filename in filenames :
         ## Ouverture
         try:
-            bibf = codecs.open(filename,'r','UTF-8',"ignore")  # 'ignore' to be safe
+            bibf = open(filename,'r',encoding='UTF-8') 
         except IOError:
             warning("Cannot open bibliography file %s !" % (filename,))
             continue
@@ -68,9 +66,9 @@ def parse_bibtex(filenames,exceptions=[]):
         while line :
             line = line.strip("\n")
             if line and line[0] == "@":
-                type_and_key = line.strip(",").split("{")
-                if len(type_and_key) == 2 and not type_and_key[0] in exceptions:
-                    keyword = type_and_key[1]
+                entry_type,*key = line.strip(",").split("{")  # idiome python 3 : key vaut la liste de ce qui vient après le 1er split
+                if key and not entry_type in exceptions:
+                    keyword = key[0]
                     if not keyword in entries :
                         line,entry = parse_entry(bibf)
                         entries[keyword] = entry

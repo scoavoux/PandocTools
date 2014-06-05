@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 import sublime, sublime_plugin
 import re
-import codecs
 from collections import defaultdict
 
 ## Additions Sarah !
-import bibparser
+import PandocTools.bibparser as bibparser
 
 # This function comes from LatexTools cite_completions.py.
 # Instead of looking through the file to find linked bib files
 # it just imports a list of bibfile from PandocTools.sublime
 def get_cite_completions(view):
 
-	#
 	s = sublime.load_settings("PandocTools.sublime-settings")
 	bib_files = s.get("bibfiles")
 	# remove duplicate bib files
@@ -78,7 +76,7 @@ def get_cite_completions(view):
 
 	return  zip(keywords, titles, authors, years, authors_short, titles_short, journals)
 
-def prefilter_completions(point,line,all_completions):
+def prefilter_completions(point,line,unfiltered):
 	# La clé est un début d'entrée de l'utilisateur,
 	# utilisée pour pré-filtrer les match
 
@@ -91,6 +89,7 @@ def prefilter_completions(point,line,all_completions):
 	# On renverse ligne et regex
 	reversed_line = line[::-1]
 	cite_trigger = re.compile("([^,]+?@?)(,.+?\[|\[)")
+	completions = unfiltered
 
 	# Match
 	match = cite_trigger.match(reversed_line)
@@ -100,58 +99,56 @@ def prefilter_completions(point,line,all_completions):
 		key = match.groups()[0][::-1]
 
 		# On calcule le point qui débutera la region a remplacer (arobase)
-		beginning = point-len(key)
+		point = point-len(key)
 
 		# L'arobase ne nous sert plus à rien
 		key = key.lstrip("@")
 
 		# Filtrage, on ignore la case
-		completions = [comp for comp in all_completions if any(elem and (key.lower() in elem.lower()) for elem in comp)]
+		# On doit construire une liste et non un générateur, 
+		# sinon on ne peut pas savoir si on a trouvé des entrées
+		completions = [comp for comp in unfiltered if any(elem and (key.lower() in elem.lower()) for elem in comp)]
 
+		# Si on n'a pas trouvé d'entrées
 		if not completions :
-			# Message d'erreur
-			bibparser.warning("Aucune entree bibliographique ne correspond au mot cle. Mot cle ignore.")
+			bibparser.warning("Aucune entrée bibliographique ne correspond au mot clé. Mot clé ignore.")
+			completions = [[key,"Erreur: Aucune entrée bibliographique ne correspond au mot clé.","PandocTools","","Citation","Erreur : non trouvé","Mot clé ignore."]]
 
-			# utiliser la liste complète
-			completions = all_completions
-	else:
-		# Pas de clé, remplacement simple
-		beginning = point
-		key = ""
-
-
-	return completions,beginning
+	# En l'absence de match, completions = unfiltered, et point n'a pas changé
+	return completions,point
 
 class PandocCiteCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		view = self.view
 		point = view.sel()[0].b
+
+		# Prefs
 		g = sublime.load_settings("PandocTools.sublime-settings")
 		cite_panel_format = g.get("cite_panel_format", ["{title} ({keyword})", "{author}"])
 	
+		## Attention, ceci dépend de la coloration syntaxique utilisée
+		#print(view.scope_name(point))
 		if not view.score_selector(point,"text.markdown"):
 			return
 
+		# Récupérer la ligne et la liste de complétions biblio, pré-filtrer au besoin
 		line = view.substr(sublime.Region(view.line(point).a, point))
-		completions_all = get_cite_completions(view)
-
-		completions,beginning = prefilter_completions(point,line,completions_all)
+		unfiltered = get_cite_completions(view)
+		completions,beginning = prefilter_completions(point,line,unfiltered)
 
 		def on_done(i):
-
 			if i<0:
 				return
 
 			cite = "@" + completions[i][0]
-			view.run_command("insert_cite",{"a":beginning,"b":point,"ins":cite})			
-		
 
-		view.window().show_quick_panel([[str.format(keyword=keyword, title=title, author=author, year=year, author_short=author_short, title_short=title_short, journal=journal) for str in cite_panel_format] \
-				for (keyword, title, author, year, author_short, title_short,journal) in completions], on_done)
-		#view.window().show_quick_panel("123",on_done)
+			region = sublime.Region(beginning,point)
+			self.view.replace(edit,region,cite)
 
-class InsertCiteCommand(sublime_plugin.TextCommand):
-	def run(self,edit,a,b,ins):
-			region = sublime.Region(a,b)
-			self.view.replace(edit,region,ins)
+			#view.run_command("insert_cite",{"a":beginning,"b":point,"ins":cite})		author, year, author_short, title_short,journal) in completions], on_done)
+		completion_strings = [[str.format(keyword=keyword, title=title, author=author, year=year, author_short=author_short, title_short=title_short, journal=journal) for str in cite_panel_format] \
+				for (keyword, title, author, year, author_short, title_short,journal) in completions]
+
+		view.window().show_quick_panel(completion_strings, on_done)
+
 
