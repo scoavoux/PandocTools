@@ -144,7 +144,7 @@
 			<key>comment</key>
 			<string>YAML Block of Metadata</string>
 			<key>end</key>
-			<string>^\.{3}$</string>
+			<string>^[-.]{3}$</string>
 			<key>name</key>
 			<string>markup.metainfo.yaml.markdown</string>
 			<key>patterns</key>
@@ -172,6 +172,23 @@
 					<string>^([^:]+)(:)([^\n]*)$</string>
 					<key>name</key>
 					<string>markup.metainfo.yaml.text.markdown</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>\n\s+</string>
+			<key>end</key>
+			<string>\n\n</string>
+			<key>name</key>
+			<string>blockcode.markdown</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>.+</string>
+					<key>name</key>
+					<string>code.markdown</string>
 				</dict>
 			</array>
 		</dict>
@@ -305,23 +322,6 @@
 			<string>^  +([-*]|\d[.\-)])</string>
 			<key>name</key>
 			<string>markup.list.2</string>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>\n\s+</string>
-			<key>end</key>
-			<string>\n\n</string>
-			<key>name</key>
-			<string>blockcode.markdown</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>match</key>
-					<string>.+</string>
-					<key>name</key>
-					<string>code.markdown</string>
-				</dict>
-			</array>
 		</dict>
 		<dict>
 			<key>comment</key>

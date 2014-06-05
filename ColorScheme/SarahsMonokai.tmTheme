@@ -472,11 +472,11 @@
 		</dict>
 		<dict>
 			<key>scope</key>
-			<string>markup.metainfo.yaml.markdown,markup.metainfo.mapping.markdown</string>
+			<string>markup.metainfo.yaml.markdown,markup.metainfo.mapping.markdown,markup.metainfo.variable.markdown</string>
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#9F4FFF</string>
+				<string>#66D9EF</string>
 			</dict>
 		</dict>
 		<dict>
@@ -485,7 +485,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#CFCFF2</string>
+				<string>#CFEFFF</string>
 			</dict>
 		</dict>
 		<dict>
