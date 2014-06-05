@@ -141,14 +141,19 @@ class PandocCiteCommand(sublime_plugin.TextCommand):
 				return
 
 			cite = "@" + completions[i][0]
+			view.run_command("insert_cite",{"a": beginning, "b": point, "cite": cite})
 
-			region = sublime.Region(beginning,point)
-			self.view.replace(edit,region,cite)
-
-			#view.run_command("insert_cite",{"a":beginning,"b":point,"ins":cite})		author, year, author_short, title_short,journal) in completions], on_done)
 		completion_strings = [[str.format(keyword=keyword, title=title, author=author, year=year, author_short=author_short, title_short=title_short, journal=journal) for str in cite_panel_format] \
 				for (keyword, title, author, year, author_short, title_short,journal) in completions]
 
 		view.window().show_quick_panel(completion_strings, on_done)
 
 
+## This is because "Edit objects may not be used after the TextCommand's run method has returned"
+
+# ST3 cannot use an edit object after the TextCommand has returned; and on_done gets 
+# called after TextCommand has returned. Thus, we need this work-around (works on ST2, too)
+class InsertCiteCommand(sublime_plugin.TextCommand):
+	def run(self,edit,a,b,cite):
+		region = sublime.Region(a,b)			# Trouver la région entre a et b
+		self.view.replace(edit,region,cite)		# remplacer ce texte par cite
