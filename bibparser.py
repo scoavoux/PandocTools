@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import codecs
+import sublime
+
 
 def decode_latex_string(term):
     translate_table = [(u'{',u''),
