@@ -3,14 +3,16 @@ import sublime, sublime_plugin
 import re
 from collections import defaultdict
 
+def warning(msg):
+    msg = "Warning: " + msg
+    print(msg)
+    sublime.status_message(msg)
+
 ## Additions Sarah !
 import PandocTools.bibparser as bibparser
 
-# This function comes from LatexTools cite_completions.py.
-# Instead of looking through the file to find linked bib files
-# it just imports a list of bibfile from PandocTools.sublime
-def get_cite_completions(view):
-
+# On sépare la récupération des données bibtex
+def get_bib_data(view):
 	s = sublime.load_settings("PandocTools.sublime-settings")
 	bib_files = s.get("bibfiles")
 	# remove duplicate bib files
@@ -29,6 +31,13 @@ def get_cite_completions(view):
 	bib_data = bibparser.parse_bibtex(bib_files,exceptions=["@comment","@string"])
 
 	print ( "Found %d total bib entries" % (len(bib_data),) )
+
+	return bib_data
+
+# This function comes from LatexTools cite_completions.py.
+# Instead of looking through the file to find linked bib files
+# it just imports a list of bibfile from PandocTools.sublime
+def get_cite_completions(view,bib_data):
 
 	keywords = []
 	titles = []
@@ -80,7 +89,7 @@ def prefilter_completions(point,line,unfiltered):
 	# La clé est un début d'entrée de l'utilisateur,
 	# utilisée pour pré-filtrer les match
 
-	# On cherche si le curseur est précédé d'une éventuelle arobase et d'un virgule ou un crochet
+	# On cherche si le curseur est précédé d'une éventuelle arobase et d'un point-virgule ou un crochet
 	# [@toto,@tata -> on veut capturer "@tata"
 	# [toto -> on veut capturer "toto"
 	# [@toto,tata -> on veut capturer "tata"
@@ -88,7 +97,7 @@ def prefilter_completions(point,line,unfiltered):
 	# Comme on veut matcher depuis la fin de la ligne, 
 	# On renverse ligne et regex
 	reversed_line = line[::-1]
-	cite_trigger = re.compile("([^,]+?@?)(,.+?\[|\[)")
+	cite_trigger = re.compile("([^;]+?@?)(;.+?\[|\[)")
 	completions = unfiltered
 
 	# Match
@@ -111,7 +120,7 @@ def prefilter_completions(point,line,unfiltered):
 
 		# Si on n'a pas trouvé d'entrées
 		if not completions :
-			bibparser.warning("Aucune entrée bibliographique ne correspond au mot clé. Mot clé ignore.")
+			warning("Aucune entrée bibliographique ne correspond au mot clé. Mot clé ignore.")
 			completions = [[key,"Erreur: Aucune entrée bibliographique ne correspond au mot clé.","PandocTools","","Citation","Erreur : non trouvé","Mot clé ignore."]]
 
 	# En l'absence de match, completions = unfiltered, et point n'a pas changé
@@ -133,7 +142,7 @@ class PandocCiteCommand(sublime_plugin.TextCommand):
 
 		# Récupérer la ligne et la liste de complétions biblio, pré-filtrer au besoin
 		line = view.substr(sublime.Region(view.line(point).a, point))
-		unfiltered = get_cite_completions(view)
+		unfiltered = get_cite_completions(view,get_bib_data(view))
 		completions,beginning = prefilter_completions(point,line,unfiltered)
 
 		def on_done(i):

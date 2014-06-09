@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-import sublime
-
+import PandocTools.PandocCite   # Commenter pour les tests
 
 def decode_latex_string(term):
     translate_table = [('{',''),
@@ -33,20 +32,18 @@ def decode_latex_string(term):
         term = term.replace(key,val)
     return term
 
-def warning(msg):
-    msg = "Warning: " + msg
-    print(msg)
-    sublime.status_message(msg)
-
 def parse_entry(bibf):
     entry = {}
     line =  bibf.readline()
-    while line !="}\n":
+    while line and line !="}\n" :
         line = line.strip("\n")
         if "=" in line :
-            key,value = line.split("=")
-            key = key.strip("\n {},")
-            value = decode_latex_string(value.strip("\n {},"))
+            key,*value = line.split("=")    
+            # utiliser *value permet d'éviter de planter quand on a des entrées contenant "=".
+            # Seul le premier "=" sera pris en compte
+            key = key.strip("\t\n {},")
+            # Transformation de la liste value en chaîne, nettoyage et décodage latex
+            value = decode_latex_string(" ".join(value).strip("\t\n {},"))
             entry[key.lower()] = value
         line =  bibf.readline()
     return line,entry
@@ -58,7 +55,8 @@ def parse_bibtex(filenames,exceptions=[]):
         try:
             bibf = open(filename,'r',encoding='UTF-8') 
         except IOError:
-            warning("Cannot open bibliography file %s !" % (filename,))
+            print("Cannot open bibliography file %s !" % (filename,))             # Décommenter pour les tests
+            PandocCite.warning("Cannot open bibliography file %s !" % (filename,)) # Commenter pour les tests
             continue
 
         ## lecture
@@ -73,7 +71,8 @@ def parse_bibtex(filenames,exceptions=[]):
                         line,entry = parse_entry(bibf)
                         entries[keyword] = entry
                     else:
-                        warning("Duplicate entry %s !" % (keyword,))
+                        #print("Duplicate entry %s !" % (keyword,))             # Décommenter pour les tests
+                        PandocCite.warning("Duplicate entry %s !" % (keyword,)) # Commenter pour les tests
             else:
                 line =  bibf.readline()
     return entries
