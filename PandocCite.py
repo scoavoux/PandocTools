@@ -3,6 +3,11 @@ import sublime, sublime_plugin
 import re
 from collections import defaultdict
 
+def warning(msg):
+    msg = "Warning: " + msg
+    print(msg)
+    sublime.status_message(msg)
+
 ## Additions Sarah !
 import PandocTools.bibparser as bibparser
 
@@ -84,7 +89,7 @@ def prefilter_completions(point,line,unfiltered):
 	# La clé est un début d'entrée de l'utilisateur,
 	# utilisée pour pré-filtrer les match
 
-	# On cherche si le curseur est précédé d'une éventuelle arobase et d'un virgule ou un crochet
+	# On cherche si le curseur est précédé d'une éventuelle arobase et d'un point-virgule ou un crochet
 	# [@toto,@tata -> on veut capturer "@tata"
 	# [toto -> on veut capturer "toto"
 	# [@toto,tata -> on veut capturer "tata"
@@ -92,7 +97,7 @@ def prefilter_completions(point,line,unfiltered):
 	# Comme on veut matcher depuis la fin de la ligne, 
 	# On renverse ligne et regex
 	reversed_line = line[::-1]
-	cite_trigger = re.compile("([^,]+?@?)(,.+?\[|\[)")
+	cite_trigger = re.compile("([^;]+?@?)(;.+?\[|\[)")
 	completions = unfiltered
 
 	# Match
@@ -115,7 +120,7 @@ def prefilter_completions(point,line,unfiltered):
 
 		# Si on n'a pas trouvé d'entrées
 		if not completions :
-			bibparser.warning("Aucune entrée bibliographique ne correspond au mot clé. Mot clé ignore.")
+			warning("Aucune entrée bibliographique ne correspond au mot clé. Mot clé ignore.")
 			completions = [[key,"Erreur: Aucune entrée bibliographique ne correspond au mot clé.","PandocTools","","Citation","Erreur : non trouvé","Mot clé ignore."]]
 
 	# En l'absence de match, completions = unfiltered, et point n'a pas changé
