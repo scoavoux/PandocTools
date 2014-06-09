@@ -66,7 +66,7 @@ def parse_bibtex(filenames,exceptions=[]):
             if line and line[0] == "@":
                 entry_type,*key = line.strip(",").split("{")  # idiome python 3 : key vaut la liste de ce qui vient après le 1er split
                 if key and not entry_type in exceptions:
-                    keyword = key[0]
+                    keyword = key[0].strip()
                     if not keyword in entries :
                         line,entry = parse_entry(bibf)
                         entries[keyword] = entry
