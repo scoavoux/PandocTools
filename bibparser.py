@@ -44,9 +44,12 @@ def parse_entry(bibf):
     while line !="}\n":
         line = line.strip("\n")
         if "=" in line :
-            key,value = line.split("=")
+            key,*value = line.split("=")    
+            # utiliser *value permet d'éviter de planter quand on a des entrées contenant "=".
+            # Seul le premier "=" sera pris en compte
             key = key.strip("\n {},")
-            value = decode_latex_string(value.strip("\n {},"))
+            # Transformation de la liste value en chaîne, nettoyage et décodage latex
+            value = decode_latex_string(" ".join(value).strip("\n {},"))
             entry[key.lower()] = value
         line =  bibf.readline()
     return line,entry
