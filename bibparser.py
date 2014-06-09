@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+
 import PandocTools.PandocCite   # Commenter pour les tests
 
 def decode_latex_string(term):
@@ -48,14 +49,14 @@ def parse_entry(bibf):
         line =  bibf.readline()
     return line,entry
 
-def parse_bibtex(filenames,exceptions=[]):
+def parse_bibtex(filenames,exceptions=["@comment"]):
     entries = {}
     for filename in filenames :
         ## Ouverture
         try:
             bibf = open(filename,'r',encoding='UTF-8') 
         except IOError:
-            print("Cannot open bibliography file %s !" % (filename,))             # Décommenter pour les tests
+            #print("Cannot open bibliography file %s !" % (filename,))             # Décommenter pour les tests
             PandocCite.warning("Cannot open bibliography file %s !" % (filename,)) # Commenter pour les tests
             continue
 
@@ -63,9 +64,10 @@ def parse_bibtex(filenames,exceptions=[]):
         line = bibf.readline()
         while line :
             line = line.strip("\n")
-            if line and line[0] == "@":
-                entry_type,*key = line.strip(",").split("{")  # idiome python 3 : key vaut la liste de ce qui vient après le 1er split
+            if line and line[0] == "@" and line[-1] != "}":
+                entry_type,*key = line.strip(",}").split("{")  # idiome python 3 : key vaut la liste de ce qui vient après le 1er split
                 if key and not entry_type in exceptions:
+                    print("enter")
                     keyword = key[0].strip()
                     if not keyword in entries :
                         line,entry = parse_entry(bibf)
@@ -73,6 +75,8 @@ def parse_bibtex(filenames,exceptions=[]):
                     else:
                         #print("Duplicate entry %s !" % (keyword,))             # Décommenter pour les tests
                         PandocCite.warning("Duplicate entry %s !" % (keyword,)) # Commenter pour les tests
+                else:
+                    line =  bibf.readline()
             else:
                 line =  bibf.readline()
     return entries
