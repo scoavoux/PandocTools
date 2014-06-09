@@ -6,11 +6,8 @@ from collections import defaultdict
 ## Additions Sarah !
 import PandocTools.bibparser as bibparser
 
-# This function comes from LatexTools cite_completions.py.
-# Instead of looking through the file to find linked bib files
-# it just imports a list of bibfile from PandocTools.sublime
-def get_cite_completions(view):
-
+# On sépare la récupération des données bibtex
+def get_bib_data(view):
 	s = sublime.load_settings("PandocTools.sublime-settings")
 	bib_files = s.get("bibfiles")
 	# remove duplicate bib files
@@ -29,6 +26,13 @@ def get_cite_completions(view):
 	bib_data = bibparser.parse_bibtex(bib_files,exceptions=["@comment","@string"])
 
 	print ( "Found %d total bib entries" % (len(bib_data),) )
+
+	return bib_data
+
+# This function comes from LatexTools cite_completions.py.
+# Instead of looking through the file to find linked bib files
+# it just imports a list of bibfile from PandocTools.sublime
+def get_cite_completions(view,bib_data):
 
 	keywords = []
 	titles = []
@@ -133,7 +137,7 @@ class PandocCiteCommand(sublime_plugin.TextCommand):
 
 		# Récupérer la ligne et la liste de complétions biblio, pré-filtrer au besoin
 		line = view.substr(sublime.Region(view.line(point).a, point))
-		unfiltered = get_cite_completions(view)
+		unfiltered = get_cite_completions(view,get_bib_data(view))
 		completions,beginning = prefilter_completions(point,line,unfiltered)
 
 		def on_done(i):
