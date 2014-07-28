@@ -145,6 +145,9 @@ class PandocCiteCommand(sublime_plugin.TextCommand):
 		unfiltered = get_cite_completions(view,get_bib_data(view))
 		completions,beginning = prefilter_completions(point,line,unfiltered)
 
+		# This has to be a list, because a generator will be empty after one iteration
+		completions = list(completions)
+
 		def on_done(i):
 			if i<0:
 				return
