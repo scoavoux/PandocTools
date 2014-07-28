@@ -262,10 +262,39 @@
 		<dict>
 			<key>comment</key>
 			<string>Math LaTeX</string>
-			<key>match</key>
-			<string>\$([^\$]+)\$</string>
+			<key>begin</key>
+			<string>\$</string>
+			<key>end</key>
+			<string>\$</string>
 			<key>name</key>
 			<string>math.markdown</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>[0-9]+</string>
+					<key>name</key>
+					<string>math.markdown.number</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>[_^]\{[^}]+\}</string>
+					<key>name</key>
+					<string>math.markdown.expind</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\\[a-zA-Z]+</string>
+					<key>name</key>
+					<string>math.markdown.key</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>[\[\]{}()]</string>
+					<key>name</key>
+					<string>math.markdown.braces</string>
+				</dict>
+			</array>
 		</dict>
 		<dict>
 			<key>begin</key>
