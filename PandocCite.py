@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
-import sublime, sublime_plugin
+import sublime
+import sublime_plugin
 import re
 from collections import defaultdict
+from . import warning
 
-def warning(msg):
-    msg = "Warning: " + msg
-    print(msg)
-    sublime.status_message(msg)
-
-## Additions Sarah !
+# Additions Sarah !
 import PandocTools.bibparser as bibparser
 
 # On sépare la récupération des données bibtex
@@ -120,7 +117,7 @@ def prefilter_completions(point,line,unfiltered):
 
 		# Si on n'a pas trouvé d'entrées
 		if not completions :
-			warning("Aucune entrée bibliographique ne correspond au mot clé. Mot clé ignore.")
+			warning.warning("Aucune entrée bibliographique ne correspond au mot clé. Mot clé ignore.")
 			completions = [[key,"Erreur: Aucune entrée bibliographique ne correspond au mot clé.","PandocTools","","Citation","Erreur : non trouvé","Mot clé ignore."]]
 
 	# En l'absence de match, completions = unfiltered, et point n'a pas changé

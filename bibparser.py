@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import PandocTools.PandocCite   # Commenter pour les tests
+from . import warning
 
 def decode_latex_string(term):
     translate_table = [('{',''),
@@ -57,7 +57,7 @@ def parse_bibtex(filenames,exceptions=["@comment"]):
             bibf = open(filename,'r',encoding='UTF-8') 
         except IOError:
             #print("Cannot open bibliography file %s !" % (filename,))             # Décommenter pour les tests
-            PandocCite.warning("Cannot open bibliography file %s !" % (filename,)) # Commenter pour les tests
+            warning.warning("Cannot open bibliography file %s !" % (filename,)) # Commenter pour les tests
             continue
 
         ## lecture
@@ -74,7 +74,8 @@ def parse_bibtex(filenames,exceptions=["@comment"]):
                         entries[keyword] = entry
                     else:
                         #print("Duplicate entry %s !" % (keyword,))             # Décommenter pour les tests
-                        PandocCite.warning("Duplicate entry %s !" % (keyword,)) # Commenter pour les tests
+                        warning.warning("Duplicate entry %s !" % (keyword,)) # Commenter pour les tests
+                        break
                 else:
                     line =  bibf.readline()
             else:
