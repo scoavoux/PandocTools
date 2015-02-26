@@ -25,7 +25,7 @@
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>markup.link.markdown</string>
+					<string>markup.address.markdown</string>
 				</dict>
 			</dict>
 			<key>comment</key>
@@ -46,7 +46,7 @@
 				<key>3</key>
 				<dict>
 					<key>name</key>
-					<string>markup.url.markdown</string>
+					<string>markup.address.markdown</string>
 				</dict>
 			</dict>
 			<key>comment</key>
@@ -324,13 +324,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>[_^]\{[^}]+\}</string>
-					<key>name</key>
-					<string>math.markdown.expind</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>\\[a-zA-Z]+</string>
+					<string>\\[^{^_^\^^\s^$]+</string>
 					<key>name</key>
 					<string>math.markdown.key</string>
 				</dict>
@@ -339,6 +333,12 @@
 					<string>[\[\]{}()]</string>
 					<key>name</key>
 					<string>math.markdown.braces</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>[_\^]\{[^}]+\}</string>
+					<key>name</key>
+					<string>math.markdown.expind</string>
 				</dict>
 			</array>
 		</dict>
@@ -392,7 +392,7 @@
 			<key>comment</key>
 			<string>List</string>
 			<key>match</key>
-			<string>^ ?([-*] |\d[.\-)])</string>
+			<string>^ ?([-*] |\d+[.\-)])</string>
 			<key>name</key>
 			<string>markup.list</string>
 		</dict>
@@ -400,7 +400,7 @@
 			<key>comment</key>
 			<string>List2</string>
 			<key>match</key>
-			<string>^  +([-*] |\d[.\-)])</string>
+			<string>^  +([-*] |\d+[.\-)])</string>
 			<key>name</key>
 			<string>markup.list.2</string>
 		</dict>

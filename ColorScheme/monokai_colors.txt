@@ -1,16 +1,16 @@
-#bbbbbb very light gray
-#CFCFC2 very very light gray
-#75715E light gray
+#272822 Darker Gray (background)
+#3E3D32 Dark Gray (selection background)
+#C7C8C2 Light gray (comment, code, italic)
+#F8F8F2 Whitish (text)
+#FFFFFF White (bold text)
 
-#66D9EF light blue
-#9D550F brown
-#86f266 light green
-#AE81FF light purple
-#E6DB74 light yellow
-#FF2672 bright pink
-#FD971F bright orange
-#FFE792 lighter yellow
+#66D9EF Light blue (quote, footnote text, list level 2, yaml keyword, links, math numbers)
+#86f266 Light green (note call, list level 1)
+#CE77FF Light purple (images, citations)
+#CFEFFF Lighter blue (yaml values)
+#FD971F Orange (titre 2, math coloration)
+#FF2672 bright pink (titre 1, citation)
+#FFE792 Light yellow (highlight background)
 
-#fffff8 lighter whitish
-#F8F8F0 whitish
-#F8F8F2 whitish
+
+#F83333 Error red (errors)
