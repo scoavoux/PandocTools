@@ -4,20 +4,16 @@ import sublime_plugin
 import re
 from collections import defaultdict
 from . import warning
-
-# Additions Sarah !
 import PandocTools.bibparser as bibparser
 
 # On sépare la récupération des données bibtex
 def get_bib_data(view):
     s = sublime.load_settings("PandocTools.sublime-settings")
     bib_files = s.get("bibfiles")
-    # remove duplicate bib files
     print ("Bib files found: ")
     print (repr(bib_files))
 
     if not bib_files:
-        # sublime.error_message("No bib files found!") # here we can!
         raise NoBibFilesError()
 
     bib_files = ([x.strip() for x in bib_files])
@@ -36,20 +32,18 @@ def get_bib_data(view):
 # it just imports a list of bibfile from PandocTools.sublime
 def get_cite_completions(view,bib_data):
     def shorten_author(authors):
+        last_name = lambda author : author.split(", ")[0].strip(' ')
         if authors :
-            # print(authors)
-            # split authors using ' and ' and get last name for 'last, first' format
-            authors = [a.split(", ")[0].strip(' ') for a in authors.split(" and ")]
+            authors = [last_name(one_author) for one_author in authors.split(" and ")]
+
             # get last name for 'first last' format (preserve {...} text)
+            # What the hell is that ?
             authors = [a.split(" ")[-1] if a[-1] != '}' or a.find('{') == -1 else re.sub(r'{|}', '', a[len(a) - a[::-1].index('{'):-1]) for a in authors]
-            #     authors = [a.split(" ")[-1] for a in authors]
-            # truncate and add 'et al.'
+
             if len(authors) > 2:
                 authors = authors[0] + " et al."
             else:
                 authors = ' & '.join(authors)
-            # return formated string
-            # print(authors)
         return authors
 
     def shorten_title(title,sep):
