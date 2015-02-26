@@ -4,10 +4,10 @@
 
 #66D9EF light blue
 #9D550F brown
-#A6E22E light green
+#86f266 light green
 #AE81FF light purple
 #E6DB74 light yellow
-#F92672 bright pink
+#FF2672 bright pink
 #FD971F bright orange
 #FFE792 lighter yellow
 

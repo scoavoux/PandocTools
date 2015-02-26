@@ -373,15 +373,6 @@
 		</dict>
 		<dict>
 			<key>scope</key>
-			<string>citation.markdown</string>
-			<key>settings</key>
-			<dict>
-				<key>foreground</key>
-				<string>#66D9EF</string>
-			</dict>
-		</dict>
-		<dict>
-			<key>scope</key>
 			<string>math.markdown</string>
 			<key>settings</key>
 			<dict>
@@ -427,24 +418,6 @@
 		</dict>
 		<dict>
 			<key>scope</key>
-			<string>citation.referencekey.markdown</string>
-			<key>settings</key>
-			<dict>
-				<key>foreground</key>
-				<string>#66D9EF</string>
-			</dict>
-		</dict>
-		<dict>
-			<key>scope</key>
-			<string>code.markdown</string>
-			<key>settings</key>
-			<dict>
-				<key>foreground</key>
-				<string>#AE81FF</string>
-			</dict>
-		</dict>
-		<dict>
-			<key>scope</key>
 			<string>markup.comment.markdown</string>
 			<key>settings</key>
 			<dict>
@@ -457,26 +430,50 @@
 			<string>markup.footnote.text.markdown,markup.inlinenote.text.markdown</string>
 			<key>settings</key>
 			<dict>
+				<key>fontStyle</key>
+				<string>italic</string>
 				<key>foreground</key>
-				<string>#33CCBB</string>
+				<string>#66D9EF</string>
 			</dict>
 		</dict>
 		<dict>
 			<key>scope</key>
-			<string>citation.symbol.markdown,markup.notecall.markdown,markup.metainfo.mark.markdown</string>
+			<string>markup.notecall.markdown,markup.metainfo.mark.markdown</string>
 			<key>settings</key>
 			<dict>
+				<key>fontStyle</key>
+				<string>bold</string>
 				<key>foreground</key>
-				<string>#FF6600</string>
+				<string>#86f266</string>
 			</dict>
 		</dict>
 		<dict>
 			<key>scope</key>
-			<string>markup.heading.markdown,markup.heading.2.markdown</string>
+			<string>markup.heading.1.markdown</string>
 			<key>settings</key>
 			<dict>
+				<key>fontStyle</key>
+				<string>bold</string>
 				<key>foreground</key>
 				<string>#FF2672</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>scope</key>
+			<string>markup.heading.1.markdown,markup.heading.2.markdown</string>
+			<key>settings</key>
+			<dict>
+				<key>fontStyle</key>
+				<string>bold</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>scope</key>
+			<string>markup.heading.symbol.markdown,markup.heading.2.markdown</string>
+			<key>settings</key>
+			<dict>
+				<key>foreground</key>
+				<string>#FD971F</string>
 			</dict>
 		</dict>
 		<dict>
@@ -485,16 +482,25 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#007722</string>
+				<string>#FFFFFF</string>
 			</dict>
 		</dict>
 		<dict>
 			<key>scope</key>
-			<string>markup.link.markdown</string>
+			<string>citation.symbol.markdown, citation.referencekey.markdown, citation.markdown</string>
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#00AADD</string>
+				<string>#FF2672</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>scope</key>
+			<string>markup.link.markdown,markup.image.markdown</string>
+			<key>settings</key>
+			<dict>
+				<key>foreground</key>
+				<string>#FD971F</string>
 			</dict>
 		</dict>
 		<dict>
@@ -547,7 +553,16 @@
 				<key>fontStyle</key>
 				<string>bold</string>
 				<key>foreground</key>
-				<string>#FF2672</string>
+				<string>#FFFFFF</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>scope</key>
+			<string>markup.code, markup.inlinecode.markdown</string>
+			<key>settings</key>
+			<dict>
+				<key>background</key>
+				<string>#39382E</string>
 			</dict>
 		</dict>
 		<dict>
@@ -558,7 +573,7 @@
 				<key>fontStyle</key>
 				<string>italic</string>
 				<key>foreground</key>
-				<string>#86f266</string>
+				<string>#FFFFFF</string>
 			</dict>
 		</dict>
 		<dict>

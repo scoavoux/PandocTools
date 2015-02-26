@@ -43,18 +43,18 @@
 					<key>name</key>
 					<string>markup.reference.markdown</string>
 				</dict>
-				<key>2</key>
+				<key>3</key>
 				<dict>
 					<key>name</key>
-					<string>markup.link.markdown</string>
+					<string>markup.url.markdown</string>
 				</dict>
 			</dict>
 			<key>comment</key>
 			<string>Link references</string>
 			<key>match</key>
-			<string>\[(.*?)\](\((http.*?)\))+</string>
+			<string>\[(.*?)\](\((.*?)\))+</string>
 			<key>name</key>
-			<string>markup.url.markdown</string>
+			<string>markup.link.markdown</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -176,23 +176,6 @@
 			</array>
 		</dict>
 		<dict>
-			<key>begin</key>
-			<string>\n\s+</string>
-			<key>end</key>
-			<string>\n\n</string>
-			<key>name</key>
-			<string>blockcode.markdown</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>match</key>
-					<string>.+</string>
-					<key>name</key>
-					<string>code.markdown</string>
-				</dict>
-			</array>
-		</dict>
-		<dict>
 			<key>comment</key>
 			<string>Comments in HTML format</string>
 			<key>match</key>
@@ -201,10 +184,10 @@
 			<string>markup.comment.markdown</string>
 		</dict>
 		<dict>
-			<key>begin</key>
-			<string>&lt;!--</string>
 			<key>comment</key>
 			<string>Comments in HTML format -- Multiline</string>
+			<key>begin</key>
+			<string>&lt;!--</string>
 			<key>end</key>
 			<string>--&gt;</string>
 			<key>name</key>
@@ -225,21 +208,76 @@
 			<key>match</key>
 			<string>^(={3,})(?=[ 	]*$)</string>
 			<key>name</key>
-			<string>markup.heading.markdown</string>
+			<string>markup.heading.1.markdown</string>
 		</dict>
 		<dict>
 			<key>comment</key>
 			<string>Heading</string>
 			<key>match</key>
-			<string>^(-{3,})(?=[ 	]*$)</string>
+			<string>^(-{3,})[ 	]*$</string>
 			<key>name</key>
 			<string>markup.heading.2.markdown</string>
 		</dict>
 		<dict>
 			<key>comment</key>
 			<string>Heading</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>markup.heading.1.symbol.markdown</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>markup.heading.1.text.markdown</string>
+				</dict>
+			</dict>
 			<key>match</key>
-			<string>^#+</string>
+			<string>^(#)( .+)</string>
+			<key>name</key>
+			<string>markup.heading.1.markdown</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Heading</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>markup.heading.2.symbol.markdown</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>markup.heading.2.text.markdown</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>^(#{2})( .+)</string>
+			<key>name</key>
+			<string>markup.heading.2.markdown</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Heading</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>markup.heading.symbol.markdown</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>markup.heading.text.markdown</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>^(#+)( .+)</string>
 			<key>name</key>
 			<string>markup.heading.markdown</string>
 		</dict>
@@ -247,15 +285,23 @@
 			<key>comment</key>
 			<string>Bold</string>
 			<key>match</key>
-			<string>\*\*(.)+?\*\*</string>
+			<string>\*\*(.)+\*\*</string>
 			<key>name</key>
 			<string>punctuation.definition.bold.markdown</string>
 		</dict>
 		<dict>
 			<key>comment</key>
+			<string>Inline code</string>
+			<key>match</key>
+			<string>`(.)+`</string>
+			<key>name</key>
+			<string>markup.inlinecode.markdown</string>
+		</dict>
+		<dict>
+			<key>comment</key>
 			<string>Italic</string>
 			<key>match</key>
-			<string>\*(.)+?\*</string>
+			<string>(^\*[^ ][^*]*\*)|([^\n]\*[^*^\n]+\*)</string>
 			<key>name</key>
 			<string>punctuation.definition.italic.markdown</string>
 		</dict>
@@ -309,9 +355,15 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>@[A-Za-z0-9_]+</string>
+					<string>[A-Za-z0-9_éèàçïüôê]+</string>
 					<key>name</key>
 					<string>citation.referencekey.markdown</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>@</string>
+					<key>name</key>
+					<string>citation.symbol.markdown</string>
 				</dict>
 			</array>
 		</dict>
@@ -340,7 +392,7 @@
 			<key>comment</key>
 			<string>List</string>
 			<key>match</key>
-			<string>^ ?([-*]|\d[.\-)])</string>
+			<string>^ ?([-*] |\d[.\-)])</string>
 			<key>name</key>
 			<string>markup.list</string>
 		</dict>
@@ -348,7 +400,7 @@
 			<key>comment</key>
 			<string>List2</string>
 			<key>match</key>
-			<string>^  +([-*]|\d[.\-)])</string>
+			<string>^  +([-*] |\d[.\-)])</string>
 			<key>name</key>
 			<string>markup.list.2</string>
 		</dict>
@@ -359,6 +411,14 @@
 			<string>^&gt;\s*(.*)</string>
 			<key>name</key>
 			<string>quote.markdown</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Code</string>
+			<key>match</key>
+			<string>^    +[^\n]+</string>
+			<key>name</key>
+			<string>markup.code</string>
 		</dict>
 		<dict>
 			<key>begin</key>
