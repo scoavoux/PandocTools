@@ -58,7 +58,6 @@ def parse_bibtex(filenames,exceptions=["@comment"]):
         except IOError:
             #print("Cannot open bibliography file %s !" % (filename,))             # Décommenter pour les tests
             warning.warning("Cannot open bibliography file %s !" % (filename,)) # Commenter pour les tests
-            continue
 
         ## lecture
         line = bibf.readline()
