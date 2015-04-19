@@ -2,5 +2,5 @@
 	<content>![${1:legend}](${2:link})</content>
 	<tabTrigger>!</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<!--<scope>markup.text.markdown</scope>-->
+	<scope>text.markdown</scope>
 </snippet>
