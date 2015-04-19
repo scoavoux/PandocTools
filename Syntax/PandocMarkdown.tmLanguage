@@ -199,6 +199,15 @@
 		</dict>
 		<dict>
 			<key>comment</key>
+			<string>Include</string>
+			<key>match</key>
+			<string>^#include .*?</string>
+			<key>name</key>
+			<string>markup.include.markdown</string>
+		</dict>
+
+		<dict>
+			<key>comment</key>
 			<string>Heading</string>
 			<key>match</key>
 			<string>^(={3,})(?=[ 	]*$)</string>

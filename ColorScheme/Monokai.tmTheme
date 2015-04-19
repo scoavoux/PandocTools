@@ -436,7 +436,7 @@
 		</dict>
 		<dict>
 			<key>scope</key>
-			<string>markup.link.markdown</string>
+			<string>markup.link.markdown,markup.include.markdown</string>
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
