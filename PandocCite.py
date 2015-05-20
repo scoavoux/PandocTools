@@ -103,9 +103,11 @@ def prefilter_completions(point,line,unfiltered):
 
         # L'arobase ne nous sert plus à rien
         key = key.lstrip("@")
-
-        # Filtrage, on ignore la case
-        completions = [entry_dict for entry_dict in unfiltered if any(elem and (key.lower() in entry_dict[elem].lower()) for elem in entry_dict)]
+        completions = None
+        
+        if key:
+            # Filtrage, on ignore la case
+            completions = [entry_dict for entry_dict in unfiltered if any(elem and (key.lower() in entry_dict[elem].lower()) for elem in entry_dict)]
 
         # Si on n'a pas trouvé d'entrées
         if not completions :
