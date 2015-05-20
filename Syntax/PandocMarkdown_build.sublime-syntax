@@ -1,0 +1,182 @@
+%YAML 1.2
+---
+name: PandocMarkdown
+file_extensions: [md, markdown, mdown, pandoc]
+scope: text.markdown
+
+variables:
+  refkey: '@[A-Za-z_0-9-]*'
+
+contexts:
+# What should be the main context?
+  main:
+    - match:
+      scope:
+    - match:
+      push:
+    # R markdown support
+    - match: ^\`{3}\{r\s*.* # if you encounter ```{r .* put up R
+      push: Packages/R/R.sublime-syntax
+      with_prototype:
+        - match: (?=^\`{3})
+          pop: true
+
+
+  prototype:
+    - include: comments
+    - include: bold
+    - include: emphasis
+    - include: references
+    - include: inlinenote
+
+# Define a contexte for blockquotes. Make sure
+# references, notes, bold and emphasis are properly
+# parsed
+
+  blockquote:
+
+# Same for lists
+  list:
+
+# For endnotes, only references, bold, emphasis
+  endnote:
+
+  code:
+  # do not include all prototype contexts
+    - meta_include_prototype: false
+
+# patterns:
+# - comment: Image link references
+#   name: markup.image.markdown
+#   match: '!\[(.*?)\]\((.*?)\)'
+#   captures:
+#     '1': {name: markup.reference.markdown}
+#     '2': {name: markup.link.markdown}
+
+# - comment: Link references
+#   name: markup.url.markdown
+#   match: \[(.*?)\](\((http.*?)\))+
+#   captures:
+#     '1': {name: markup.reference.markdown}
+#     '2': {name: markup.link.markdown}
+
+# - comment: Inline note
+#   name: markup.inlinenote.markdown
+#   match: (\^\[)(.*?)(\])
+#   captures:
+#     '1': {name: markup.notecall.markdown}
+#     '2': {name: markup.inlinenote.text.markdown}
+#     '3': {name: markup.notecall.markdown}
+
+# - comment: Footnotes
+#   name: markup.footnote.markdown
+#   begin: (^\[\^.*?\]:)
+#   beginCaptures:
+#     '1': {name: markup.notecall.markdown}
+#   end: ^$
+#   patterns:
+#   - name: markup.footnote.text.markdown
+#     match: .*
+
+# - comment: Inline notecall
+#   name: markup.notecall.markdown
+#   match: \[\^.*?\]
+
+# - comment: Metainformation of the files such as Title, Author, Date
+#   name: markup.metainfo.old.markdown
+#   match: ^(%)\s+(.*)
+#   captures:
+#     '1': {name: markup.metainfo.mark.markdown}
+#     '2': {name: markup.metainfo.value.markdown}
+
+# - comment: YAML Block of Metadata
+#   name: markup.metainfo.yaml.markdown
+#   begin: ^-{3}$
+#   end: ^.{3}$
+#   patterns:
+#   - name: markup.metainfo.yaml.text.markdown
+#     match: ^[\*\-\+\s\t]*([\w_]+):(.*)$
+#     captures:
+#       '1': {name: markup.metainfo.variable.markdown}
+#       '2': {name: markup.metainfo.value.markdown}
+
+# - comment: Comments in HTML format
+#   name: markup.comment.markdown
+#   match: <!--(.*?)-->
+
+# - comment: Comments in HTML format -- Multiline
+#   name: markup.comment.markdown
+#   begin: <!--
+#   end: -->
+#   patterns:
+#   - name: markup.comment.text.markdown
+#     match: .*?
+
+# - comment: Include
+#   name: markup.include.markdown
+#   match: ^#include .*?
+
+# - comment: Heading
+#   name: markup.heading.markdown
+#   match: "^(={3,})(?=[ \t]*$)"
+
+# - comment: Heading
+#   name: markup.heading.2.markdown
+#   match: "^(-{3,})(?=[ \t]*$)"
+
+# - comment: Heading
+#   name: markup.heading.markdown
+#   match: |-
+#     ^#+([^
+#     ]+)
+# - comment: Bold
+#   name: punctuation.definition.bold.markdown
+#   match: \*\*(.)+?\*\*
+
+# - comment: Italic
+#   name: punctuation.definition.italic.markdown
+#   match: \*(.)+?\*
+
+# - comment: Math LaTeX
+#   name: math.markdown
+#   match: \$([^\$]+)\$
+
+# - comment: Reference citation
+#   name: citation.markdown
+#   begin: \[
+#   end: \]
+#   patterns:
+#   - name: citation.referencekey.markdown
+#     match: '@[A-Za-z0-9_]+'
+
+# - comment: Reference citation
+#   name: citation.inline.markdown
+#   match: (@)([A-Za-z0-9_]+)
+#   captures:
+#     '1': {name: citation.symbol.markdown}
+#     '2': {name: citation.referencekey.markdown}
+
+# - comment: List
+#   name: markup.list
+#   match: |-
+#     ^\s*[*+-]+([^
+#     ]+)|^[\.\d]+([^
+#     ]+)
+# - comment: Blockquote text
+#   name: code.markdown
+#   match: ^\s+(.+)
+
+# - comment: Blockquote text
+#   name: quote.markdown
+#   match: ^>\s*(.*)
+
+# - name: balise.markdown
+#   begin: <
+#   end: '>'
+#   patterns:
+#   - name: balise.markdown
+#     match: \w+
+
+# - comment: Balise text
+#   name: string
+#   match: '".+?"'
