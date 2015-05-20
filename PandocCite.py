@@ -54,7 +54,7 @@ def get_cite_completions(view,bib_data):
     completions = []
 
     for keyword in bib_data :
-        entry = defaultdict(lambda : None,bib_data[keyword])
+        entry = defaultdict(lambda : "",bib_data[keyword])
         title = entry["title"] or entry["chapter"] or ""
         author = entry["author"] or entry["editor"] or ""
         completions.append({
