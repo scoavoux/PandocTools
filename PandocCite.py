@@ -81,7 +81,14 @@ def prefilter_completions(point,line,unfiltered):
     # Comme on veut matcher depuis la fin de la ligne, 
     # On renverse ligne et regex
     reversed_line = line[::-1]
-    cite_trigger = re.compile("([^,^;]+?@?)([;,].+?\[|\[)")
+    cite_trigger = re.compile("([^,^;]*?@?)([;,].+?\[|\[)")
+                            # First group : (the key)
+                            # Anything that isn't a comma or a semicolon (greedy)
+                            # Followed by a facultative "@"
+                            # Second group :
+                            # A semicolon or comma followed  by something (greedy) and a [
+                            # or just a [
+    print(cite_trigger)
 
     # Match
     match = cite_trigger.match(reversed_line)
@@ -89,6 +96,7 @@ def prefilter_completions(point,line,unfiltered):
         # On récupère le groupe qui constitue la clé
         # Le second groupe contient ";(...)[" ou '[', il est inutile
         key = match.groups()[0][::-1]
+        print(match.groups()[0])
 
         # On calcule le point qui débutera la region a remplacer (arobase)
         point = point-len(key)
@@ -117,22 +125,31 @@ class PandocCiteCommand(sublime_plugin.TextCommand):
         # Prefs
         g = sublime.load_settings("PandocTools.sublime-settings")
         cite_panel_format = g.get("cite_panel_format", ["{title} ({keyword})", "{author}"])
-    
+        restrict_to_markdown = g.get("PandocCite_restrict", "True") 
+
         ## Attention, ceci dépend de la coloration syntaxique utilisée
-        #print(view.scope_name(point))
-        if not view.score_selector(point,"text.markdown"):
+        doc_is_markdown = view.score_selector(point,"text.markdown")
+
+        if not doc_is_markdown and restrict_to_markdown :
             return
 
         # Récupérer la ligne et la liste de complétions biblio, pré-filtrer au besoin
         line = view.substr(sublime.Region(view.line(point).a, point))
         unfiltered = get_cite_completions(view,get_bib_data(view))
-        completions,beginning = prefilter_completions(point,line,unfiltered)
+
+        if doc_is_markdown :
+            prefix = "@"
+            completions,beginning = prefilter_completions(point,line,unfiltered)
+        else:
+            prefix = ""
+            completions,beginning = unfiltered,point
+            # no pre-filtering if we're not in markdown.
 
         def on_done(i):
             if i<0:
                 return
 
-            cite = "@" + completions[i]["keyword"]
+            cite = prefix + completions[i]["keyword"]
             view.run_command("insert_cite",{"a": beginning, "b": point, "cite": cite})
 
 
