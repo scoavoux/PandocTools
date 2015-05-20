@@ -478,7 +478,7 @@
 		</dict>
 		<dict>
 			<key>scope</key>
-			<string>citation.symbol.markdown, citation.referencekey.markdown, citation.markdown</string>
+			<string>citation.referencekey.markdown, citation.markdown</string>
 			<key>settings</key>
 			<dict>
 				<key>fontStyle</key>

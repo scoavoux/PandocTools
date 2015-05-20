@@ -293,7 +293,7 @@
 			<key>comment</key>
 			<string>Inline code</string>
 			<key>match</key>
-			<string>`(.)+`</string>
+			<string>`(.)+?`</string>
 			<key>name</key>
 			<string>markup.inlinecode.markdown</string>
 		</dict>
@@ -344,7 +344,7 @@
 		</dict>
 		<dict>
 			<key>begin</key>
-			<string>\[</string>
+			<string>\[@</string>
 			<key>comment</key>
 			<string>Reference citation</string>
 			<key>end</key>
@@ -358,12 +358,6 @@
 					<string>[A-Za-z0-9_éèàçïüôê]+</string>
 					<key>name</key>
 					<string>citation.referencekey.markdown</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>@</string>
-					<key>name</key>
-					<string>citation.symbol.markdown</string>
 				</dict>
 			</array>
 		</dict>
