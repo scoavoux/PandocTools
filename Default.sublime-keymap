@@ -5,19 +5,23 @@
     // Shortcuts formatting
     { "keys": ["ctrl+i"], "command": "insert_snippet", "args": {"contents": "*${0:$SELECTION}*"},"context":
         [
-        { "key": "selector", "operator": "equal", "operand": "text.markdown" }
+            { "key": "selector", "operator": "equal", "operand": "text.markdown" },
+            { "key": "selection_empty", "operator": "equal", "operand": false, "match_all": true }
         ]},
     { "keys": ["ctrl+b"], "command": "insert_snippet", "args": {"contents": "**${0:$SELECTION}**"},"context":
         [
-        { "key": "selector", "operator": "equal", "operand": "text.markdown" }
+            { "key": "selector", "operator": "equal", "operand": "text.markdown" },
+            { "key": "selection_empty", "operator": "equal", "operand": false, "match_all": true }
         ]},
     { "keys": ["ctrl+&"], "command": "insert_snippet", "args": {"contents": "# ${0:$SELECTION}"},"context":
         [
-        { "key": "selector", "operator": "equal", "operand": "text.markdown" }
+            { "key": "selector", "operator": "equal", "operand": "text.markdown" },
+            { "key": "selection_empty", "operator": "equal", "operand": false, "match_all": true }
         ]}, // header 1
     { "keys": ["ctrl+é"], "command": "insert_snippet", "args": {"contents": "## ${0:$SELECTION}"},"context":
         [
-        { "key": "selector", "operator": "equal", "operand": "text.markdown" }
+            { "key": "selector", "operator": "equal", "operand": "text.markdown" },
+            { "key": "selection_empty", "operator": "equal", "operand": false, "match_all": true }
         ]}, // header 2
 
 	// Auto-pair stars
@@ -115,6 +119,7 @@
     // Auto-continue lists 
     { "keys": ["enter"], "command": "pandoc_lists", "context":
         [
+            { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
             { "key": "preceding_text", "operator": "regex_match", "operand": "^([+*-]|\\d+[.)]|#\\.) .+", "match_all": true },
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
