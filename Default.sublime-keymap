@@ -122,10 +122,10 @@
     },
 
     // Auto-continue citation
-    { "keys": ["enter"], "command": "insert_snippet", "args": {"contents": "\n> $0"}, "context":
+    { "keys": ["enter"], "command": "pandoc_block_quote", "context":
         [
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
-            { "key": "preceding_text", "operator": "regex_match", "operand": "^> .+", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^> .*", "match_all": true },
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
         ]
     },
@@ -136,7 +136,7 @@
         [
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
             { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
-            { "key": "preceding_text", "operator": "regex_match", "operand": "^([>+*-]|\\d+[.)]|#\\.) ", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^([+*-]|\\d+[.)]|#\\.) ", "match_all": true },
             { "key": "selector", "operator": "not_equal", "operand": "punctuation.definition.string.begin", "match_all": true },
             { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.double - punctuation.definition.string.end", "match_all": true },
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
