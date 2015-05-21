@@ -121,10 +121,11 @@
         ]
     },
 
-    // Auto-continue citation
+    // Auto-continue blockquote
     { "keys": ["enter"], "command": "pandoc_block_quote", "context":
         [
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+            { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
             { "key": "preceding_text", "operator": "regex_match", "operand": "^> .*", "match_all": true },
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
         ]
