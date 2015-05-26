@@ -1,0 +1,24 @@
+// SYNTAX TEST "Packages/PandocTools/Syntax/PandocMarkdown_build.sublime-syntax"
+
+# Heading one
+// <- 
+
+Text *emphasized* and **bold**
+//     ^ 
+//                       ^ 
+
+text^[Inline note] and ref[@reference]
+//  ^ 
+//     ^
+//                          ^
+
+> Some quote with *emphasis* and **bold**
+// <- 
+//                 ^
+//                                  ^
+
+> Some quote
+lazily multilined
+// <- 
+// 
+
