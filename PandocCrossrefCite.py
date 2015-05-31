@@ -9,6 +9,8 @@ def get_labels(view):
     # regex pour les labels
     tbl_reg = re.compile("^\w*:(.*?){#(tbl):([a-zA-Z0-9-_]*)?}")
     fig_reg = re.compile("^.*\!\[(.*?)\]\(.*?\)\s*{#(fig):([a-zA-Z0-9-_]*)?}")
+    eq_reg = re.compile("^\${2}(.*)\${2}\s*{#(eq):(.*?)}")
+    code_reg = re.compile("^(?:`{3}|~{3}){#(lst):(\w*).*caption=\"(.*)\"}")
     # récupérer l'ensemble du texte
     content = view.split_by_newlines(sublime.Region(0, view.size()))
     labels = []
@@ -17,6 +19,10 @@ def get_labels(view):
         match = tbl_reg.match(line)
         if not match:
             match = fig_reg.match(line)
+            if not match:
+                match = code_reg.match(line)
+                if not match:
+                    match = eq_reg.match(line)
         if match:
             caption = match.group(1)
             genre = match.group(2)
@@ -40,7 +46,9 @@ class PandocCrossrefCiteCommand(sublime_plugin.TextCommand):
                 return
 
             cite = "[@" + completions[i]["genre"] + ":" + completions[i]["label"] + "]"
-            view.run_command("insert_cite",{"a": point, "b": point, "cite": cite})
+            view.run_command(
+                "insert_cite",
+                {"a": point, "b": point, "cite": cite})
 
 
         completion_strings = [entry['genre'] + " : " + entry['caption'] + " (" + entry['label'] + ")" for entry in completions]
