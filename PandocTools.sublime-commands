@@ -1,3 +1,4 @@
 [
-    { "caption": "Pandoc Cite", "command": "pandoc_cite" }
+    { "caption": "Pandoc Cite", "command": "pandoc_cite" },
+    { "caption": "Pandoc Crossref Cite", "command": "pandoc_crossref_cite" }
 ]
