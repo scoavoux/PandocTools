@@ -1,5 +1,6 @@
 <snippet>
-	<content>^[${1:footnote text}]</content>
+	<content><![CDATA[
+^[${1:footnote text}]]]></content>
 	<tabTrigger>^</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<scope>text.markdown</scope>
