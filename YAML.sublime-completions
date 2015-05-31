@@ -1,0 +1,14 @@
+{
+   "scope": "markup.metainfo.yaml.markdown",
+
+   "completions":
+   [
+      "author: ",
+      "title: ",
+      "date: ",
+      "bibliography: ",
+      "csl: ",
+      "include-before: ",
+      "include-after: "
+   ]
+}
