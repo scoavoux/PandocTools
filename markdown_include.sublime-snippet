@@ -1,5 +1,6 @@
 <snippet>
-	<content>#include "${1:link}"</content>
+	<content><![CDATA[
+#include "${1:link}"]]></content>
 	<tabTrigger>#i</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<scope>text.markdown</scope>
