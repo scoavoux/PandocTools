@@ -41,6 +41,15 @@ class PandocCrossrefCiteCommand(sublime_plugin.TextCommand):
         point = view.sel()[0].b
         completions = get_labels(view)
 
+        g = sublime.load_settings("PandocTools.sublime-settings")
+        restrict_to_markdown = g.get("PandocCite_restrict", "True")
+
+        # Attention, ceci dépend de la coloration syntaxique utilisée
+        doc_is_markdown = view.score_selector(point, "text.markdown")
+
+        if not doc_is_markdown and restrict_to_markdown:
+            return
+
         def on_done(i):
             if i < 0:
                 return
