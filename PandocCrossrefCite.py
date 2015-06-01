@@ -2,6 +2,23 @@
 import sublime
 import sublime_plugin
 import re
+import os
+
+
+def find_md_files(view):
+    filename = view.file_name()
+    name = os.path.basename(filename)
+    dirname = os.path.dirname(filename)
+    filelist = os.listdir(dirname)
+    mdf_reg = re.compile("^.*?(\.md|\.markdown|\.mdown|\.pandoc)")
+    md_files = []
+    for f in filelist:
+        match = mdf_reg.match(f)
+        if match:
+            md_files.append(match.group())
+    md_files.remove(name)
+
+    return(md_files, dirname, name)
 
 
 def get_labels(view):
@@ -34,6 +51,20 @@ def get_labels(view):
                 })
     return(labels)
 
+
+# redefine function get_label so it doesn't need
+# to know wether input is current buffer or
+# external file.
+# then write two functions, one for current buffer
+# content = view.split...
+# one for external file.
+# then check in PandocCrossrefCiteCommand if
+# 1. option check for external file is on (pref.)
+# 2. there are other markdown files in folder
+# if not, function stays the same
+# if yes, then parse those files, extract reference
+# and add it to completions, with an indication it's
+# in another file
 
 class PandocCrossrefCiteCommand(sublime_plugin.TextCommand):
     def run(self, edit):
