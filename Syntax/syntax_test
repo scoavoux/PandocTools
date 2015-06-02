@@ -1,0 +1,19 @@
+// SYNTAX TEST "Packages/PandocTools/Syntax/PandocMarkdown_build.sublime-syntax"
+---
+author:
+// <- meta.tag.yaml
+title:
+// <- source.yaml
+...
+
+# Title 1
+// <- entity.name.section.markdown
+
+> Hello world *some*
+// ^ text.markdown.blockquote
+//              ^ markup.italic.markdown
+
+**bold** and *italic*
+// ^ markup.bold.markdown
+//              ^ markup.italic.markdown
+
