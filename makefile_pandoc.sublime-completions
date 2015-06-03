@@ -1,0 +1,15 @@
+{
+   "scope": "source.makefile",
+
+   "completions":
+   [
+      "pandoc ${1:input.md} -o ${2:output} -t ${3:output_format}",
+      "--bibliography=",
+      "--csl=",
+      "--slide-level",
+      "--variable=${1:option}:${2:value}",
+      "--smart",
+      "--self",
+      "--latex-engine=${1:xelatex}"
+   ]
+}
