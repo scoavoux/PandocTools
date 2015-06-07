@@ -26,5 +26,23 @@ lazily multilined
 // ^ comment
 
 ![legend](link)
+// <- markup.image.markdown
 //  ^ markup.reference.markdown
 //         ^ markup.link.markdown
+
+[legend](link)
+// <- markup.url.markdown
+//  ^ markup.reference.markdown
+//         ^ markup.link.markdown
+
+[^hello]: world
+
+    sqsqsqsqsqsq, *hello*
+//   ^ markup.footnote.text.markdown
+
+sqsq[^hello]
+//    ^ markup.notecall.markdown
+
+and so on^[indeed]
+
+And reference[@bourdieu1986-a;]

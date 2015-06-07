@@ -8,18 +8,13 @@ file_extensions:
   - pandoc
 scope: text.markdown
 variables:
-  refkey: '@[A-Za-z_0-9-]*'
+  refkey: '@[A-Za-z_0-9\-]*'
 contexts:
   main:
     - match: ^>
       push:
       - meta_scope: text.markdown.blockquote
       - match: ^\s+$
-        pop: true
-    - match: <!--
-      push:
-      - meta_scope: comment.html
-      - match: "-->"
         pop: true
     - match: '---'
       push: Packages/YAML/YAML.sublime-syntax
@@ -28,26 +23,71 @@ contexts:
           pop: true
     - match: '^#+\s*'
       scope: entity.name.section.markdown
-    - match: '(!)\[(.*?)\]\((.*?)\)'
+    - match: '(!\[)(.*?)(\]\()(.*?)(\))'
+      scope: markup.image.markdown
       captures:
         1: keyword.control.image.markdown
+        3: keyword.control.image.markdown
+        5: keyword.control.image.markdown
         2: markup.reference.markdown
-        3: markup.link.markdown
-    - match: '\[(.*?)\](\((http.*?)\))+'
+        4: markup.link.markdown
+    - match: '(\[)(.*?)(\]\()(.*?)(\))'
+      scope: markup.url.markdown
       captures:
-        1: markup.reference.markdown
-        2: markup.link.markdown
-
+        1: keyword.control.url.markdown
+        3: keyword.control.url.markdown
+        5: keyword.control.url.markdown
+        2: markup.reference.markdown
+        4: markup.link.markdown
+  comment:
+    - match: <!--
+      push:
+      - meta_scope: comment.html
+      - match: "-->"
+        pop: true
+  include:
+    - match: ^#include .*?
+      scope: markup.include.markdown
+  math:
+    - match: \$([^\$]+)\$
+      scope: constant.numeric.markdown
   bold:
     - match: \*\*(.)+?\*\*
       scope: markup.bold.markdown
   italic:
     - match: \*(.)+?\*
       scope: markup.italic.markdown
-
-
+  notecall:
+    - match: '\[\^.*?\]'
+      scope: markup.notecall.markdown
+  footnote:
+    - match: '^\[\^.*?\]:'
+      scope: markup.notecall.markdown
+      push:
+        - meta_content_scope: markup.footnote.text.markdown
+        - match: '^\S+'
+          pop: true
+  inlinenote:
+    - match: '(\^\[)(.*?)(\])'
+      captures: 
+        2 : markup.inlinenote.text.markdown
+        1 : markup.notecall.markdown
+        3 : markup.notecall.markdown
+  reference:
+    - match: '\['
+      push:
+        - match: '{{refkey}}'
+          scope: citation.referencekey.markdown
+        - match: ';'
+          scope: keyword.control.referencesep
+        - match: '\]'
+          pop: true
   prototype:
     - include: bold
     - include: italic
-    # - include: references
-    # - include: inlinenote
+    - include: math
+    - include: comment
+    - include: footnote
+    - include: notecall
+    - include: inlinenote
+    - include: reference
