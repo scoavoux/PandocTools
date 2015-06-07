@@ -16,6 +16,11 @@ contexts:
       - meta_scope: text.markdown.blockquote
       - match: ^\s+$
         pop: true
+    - match: <!--
+      push:
+      - meta_scope: comment.html
+      - match: "-->"
+        pop: true
     - match: '---'
       push: Packages/YAML/YAML.sublime-syntax
       with_prototype:
@@ -23,6 +28,16 @@ contexts:
           pop: true
     - match: '^#+\s*'
       scope: entity.name.section.markdown
+    - match: '(!)\[(.*?)\]\((.*?)\)'
+      captures:
+        1: keyword.control.image.markdown
+        2: markup.reference.markdown
+        3: markup.link.markdown
+    - match: '\[(.*?)\](\((http.*?)\))+'
+      captures:
+        1: markup.reference.markdown
+        2: markup.link.markdown
+
   bold:
     - match: \*\*(.)+?\*\*
       scope: markup.bold.markdown
@@ -30,9 +45,9 @@ contexts:
     - match: \*(.)+?\*
       scope: markup.italic.markdown
 
+
   prototype:
     - include: bold
     - include: italic
-    # - include: comments
     # - include: references
     # - include: inlinenote

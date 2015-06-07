@@ -22,3 +22,9 @@ lazily multilined
 // <- 
 // 
 
+<!-- comment -->
+// ^ comment
+
+![legend](link)
+//  ^ markup.reference.markdown
+//         ^ markup.link.markdown
