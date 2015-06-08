@@ -52,7 +52,7 @@
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
 			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
  			{ "key": "following_text", "operator": "regex_match", "operand": "\\*+$", "match_all": true },
-			{ "key": "preceding_text", "operator": "regex_match", "operand": "\\*+$", "match_all": true },
+			{ "key": "preceding_text", "operator": "regex_match", "operand": "^(\\s*)\\*+$", "match_all": true },
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
 
 		]
@@ -64,6 +64,7 @@
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
 		]
 	},
+    // Deleting both stars on backspace
 	{ "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"}, "context":
 		[
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
@@ -104,6 +105,7 @@
 
 		]
 	},
+    // Deleting both underscores on backspace
 	{ "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"}, "context":
 		[
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
@@ -121,7 +123,7 @@
         [
             { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
-            { "key": "preceding_text", "operator": "regex_match", "operand": "^([+*-]|\\d+[.)]|#\\.) .+", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^(\\s*)([+*-]|\\d+[.)]|#\\.) .+", "match_all": true },
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
         ]
     },
@@ -136,13 +138,24 @@
         ]
     },
 
-    // Auto delete for lists and blockquote 
+    // Auto indent lists
+    { "keys": ["tab"], "command": "pandoc_indent_one", "context":
+        [
+            { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+            { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^(\\s*)([+*-]|\\d+[.)]|#\\.) ?", "match_all": true },
+            { "key": "selector", "operator": "not_equal", "operand": "punctuation.definition.string.begin", "match_all": true },
+            { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.double - punctuation.definition.string.end", "match_all": true },
+            { "key": "selector", "operator": "equal", "operand": "text.markdown" }
+        ]
+    },
 
+    // Auto delete for lists and blockquote 
     { "keys": ["enter"], "command": "run_macro_file", "args": {"file": "res://Packages/PandocTools/Delete to BOL and newline.sublime-macro"}, "context":
         [
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
             { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
-            { "key": "preceding_text", "operator": "regex_match", "operand": "^([+*-]|\\d+[.)]|#\\.) ", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^(\\s*)([+*-]|\\d+[.)]|#\\.) ", "match_all": true },
             { "key": "selector", "operator": "not_equal", "operand": "punctuation.definition.string.begin", "match_all": true },
             { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.double - punctuation.definition.string.end", "match_all": true },
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
@@ -153,11 +166,10 @@
         [
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
             { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
-            { "key": "preceding_text", "operator": "regex_match", "operand": "^([>+*-]|\\d+[.)]|#\\.) ", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^(\\s*)([>+*-]|\\d+[.)]|#\\.) ", "match_all": true },
             { "key": "selector", "operator": "not_equal", "operand": "punctuation.definition.string.begin", "match_all": true },
             { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.double - punctuation.definition.string.end", "match_all": true },
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
         ]
     }
-
 ]
