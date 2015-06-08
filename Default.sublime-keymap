@@ -52,7 +52,7 @@
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
 			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
  			{ "key": "following_text", "operator": "regex_match", "operand": "\\*+$", "match_all": true },
-			{ "key": "preceding_text", "operator": "regex_match", "operand": "\\*+$", "match_all": true },
+			{ "key": "preceding_text", "operator": "regex_match", "operand": "^( *)\\*+$", "match_all": true },
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
 
 		]
@@ -64,6 +64,7 @@
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
 		]
 	},
+    // Deleting both stars on backspace
 	{ "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"}, "context":
 		[
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
@@ -104,6 +105,7 @@
 
 		]
 	},
+    // Deleting both underscores on backspace
 	{ "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"}, "context":
 		[
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
@@ -121,7 +123,7 @@
         [
             { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
-            { "key": "preceding_text", "operator": "regex_match", "operand": "^([+*-]|\\d+[.)]|#\\.) .+", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^( *)([+*-]|\\d+[.)]|#\\.) .+", "match_all": true },
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
         ]
     },

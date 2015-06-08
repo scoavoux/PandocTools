@@ -9,15 +9,18 @@ class PandocListsCommand(sublime_plugin.TextCommand):
     view = self.view
     point = view.sel()[0].b
     line = view.substr(sublime.Region(view.line(point).a, point))
-    bullets_trigger = re.compile("^([*-+]|#\.) .+")
-    numeric_list_trigger = re.compile("^(\d+)([.)]) .+")
+    bullets_trigger = re.compile("^( *)([*-+]|#\.) .+")
+    numeric_list_trigger = re.compile("^( *)(\d+)([.)]) .+")
 
     bullet = bullets_trigger.match(line)
     numeric = numeric_list_trigger.match(line)
+    spaces = ""
 
     if bullet:
-        new_bullet = bullet.groups()[0]
+        spaces = bullet.groups()[0]
+        new_bullet = bullet.groups()[1]
     elif numeric:
-        new_bullet = str(int(numeric.groups()[0])+1)+numeric.groups()[1]
+        spaces = numeric.groups()[0]
+        new_bullet = str(int(numeric.groups()[1])+1)+numeric.groups()[2]
 
-    self.view.insert(edit, point, "\n"+new_bullet+" ")
+    self.view.insert(edit, point, "\n"+spaces+new_bullet+" ")
