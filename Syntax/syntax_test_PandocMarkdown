@@ -4,12 +4,12 @@
 // <- 
 
 Text *emphasized* and **bold**
-//     ^ 
-//                       ^ 
+//     ^ markup.italic.markdown 
+//                       ^ markup.bold.markdown
 
 text^[Inline note] and ref[@reference]
 //  ^ 
-//     ^
+//     ^ 
 //                          ^
 
 > Some quote with *emphasis* and **bold**
@@ -45,4 +45,11 @@ sqsq[^hello]
 
 and so on^[indeed]
 
-And reference[@bourdieu1986-a;]
+And reference[@bourdieu1986-a;something else; something else entierly@bourdieu, p. *italic*]
+
++ element 1
++ element 2
+	- sublist 1, **bold**
+	- sublist 2
+
+Not a list anymore

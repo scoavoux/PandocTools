@@ -14,6 +14,15 @@ contexts:
     - match: ^>
       push:
       - meta_scope: text.markdown.blockquote
+      - include: bold
+      - include: italic
+      - include: math
+      - include: comment
+      - include: footnote
+      - include: notecall
+      - include: inlinenote
+      - include: url
+      - include: reference
       - match: ^\s+$
         pop: true
     - match: '---'
@@ -31,6 +40,7 @@ contexts:
         5: keyword.control.image.markdown
         2: markup.reference.markdown
         4: markup.link.markdown
+  url:
     - match: '(\[)(.*?)(\]\()(.*?)(\))'
       scope: markup.url.markdown
       captures:
@@ -44,6 +54,12 @@ contexts:
       push:
       - meta_scope: comment.html
       - match: "-->"
+        pop: true
+  list:
+    - match: ^([\*-+]|\d\.)
+      push:
+      - meta_scope: markup.list
+      - match: (?=^([^\s\*-+^(\d\.)]))
         pop: true
   include:
     - match: ^#include .*?
@@ -76,10 +92,13 @@ contexts:
   reference:
     - match: '\['
       push:
+        - meta_scope: markup.inlinenote.text.markdown
         - match: '{{refkey}}'
           scope: citation.referencekey.markdown
         - match: ';'
           scope: keyword.control.referencesep
+        - include: italic
+        - include: bold
         - match: '\]'
           pop: true
   prototype:
@@ -90,4 +109,6 @@ contexts:
     - include: footnote
     - include: notecall
     - include: inlinenote
+    - include: url
     - include: reference
+    - include: list
