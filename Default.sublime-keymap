@@ -1,6 +1,16 @@
 [
-	{ "keys": ["ctrl+<"], "command": "pandoc_cite" },
+    { "keys": ["ctrl+<"], "command": "pandoc_cite" },
 	
+    { "keys": ["ctrl+alt+s"], "command": "goto_next_comment","context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "text.markdown" },        
+        ]},
+
+    { "keys": ["ctrl+alt+d"], "command": "goto_previous_comment","context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "text.markdown" },        
+        ]},
+
 
     // Shortcuts formatting
     { "keys": ["ctrl+i"], "command": "insert_snippet", "args": {"contents": "*${0:$SELECTION}*"},"context":
