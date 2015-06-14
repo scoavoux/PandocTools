@@ -154,6 +154,8 @@ class PandocCiteCommand(sublime_plugin.TextCommand):
 
             cite = prefix + completions[i]["keyword"]
             view.run_command("insert_cite",{"a": beginning, "b": point, "cite": cite})
+            self.view.sel().clear()
+            self.view.sel().add(beginning + len(cite))
 
 
         completion_strings = [[formatter.format(**bib_dict) for formatter in cite_panel_format] for bib_dict in completions]

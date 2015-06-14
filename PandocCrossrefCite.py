@@ -89,6 +89,9 @@ class PandocCrossrefCiteCommand(sublime_plugin.TextCommand):
             view.run_command(
                 "insert_cite",
                 {"a": point, "b": point, "cite": cite})
+            self.view.sel().clear()
+            self.view.sel().add(point + len(cite))
+
 
 
         completion_strings = [entry['genre'] + " : " + entry['caption'] + " (" + entry['label'] + ")" for entry in completions]
