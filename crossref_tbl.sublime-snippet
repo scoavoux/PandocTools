@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[
+{#tbl:${1:label}}]]></content>
+    <tabTrigger>tbl</tabTrigger>
+    <scope>text.markdown</scope>
+</snippet>

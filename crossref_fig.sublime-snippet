@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[
+{#fig:${1:label}}]]></content>
+    <tabTrigger>fig</tabTrigger>
+    <scope>text.markdown</scope>
+</snippet>
