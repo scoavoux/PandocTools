@@ -268,7 +268,7 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>@[A-Za-z0-9_]+</string>
+					<string>@[A-Za-z0-9_\-]+</string>
 					<key>name</key>
 					<string>citation.referencekey.markdown</string>
 				</dict>
@@ -291,7 +291,7 @@
 			<key>comment</key>
 			<string>Reference citation</string>
 			<key>match</key>
-			<string>(@)([A-Za-z0-9_]+)</string>
+			<string>(@)([A-Za-z0-9_\-]+)</string>
 			<key>name</key>
 			<string>citation.inline.markdown</string>
 		</dict>
