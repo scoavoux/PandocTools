@@ -28,6 +28,7 @@ def get_labels(view):
     fig_reg = re.compile("^.*\!\[(.*?)\]\(.*?\)\s*{#(fig):([a-zA-Z0-9-_]*)?}")
     eq_reg = re.compile("^\${2}(.*)\${2}\s*{#(eq):(.*?)}")
     code_reg = re.compile("^(?:`{3}|~{3}){#(lst):(\w*).*caption=\"(.*)\"}")
+    sec_reg = re.compile("^(#+.*?){#(sec):(.*?)}")
     # récupérer l'ensemble du texte
     content = view.split_by_newlines(sublime.Region(0, view.size()))
     labels = []
@@ -40,6 +41,8 @@ def get_labels(view):
                 match = code_reg.match(line)
                 if not match:
                     match = eq_reg.match(line)
+                    if not match:
+                        match = sec_reg.match(line)
         if match:
             caption = match.group(1)
             genre = match.group(2)

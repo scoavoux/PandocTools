@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[
+{#sec:${1:label}}]]></content>
+    <tabTrigger>sec</tabTrigger>
+    <scope>text.markdown</scope>
+</snippet>
