@@ -25,7 +25,7 @@ def get_labels(view):
     # trouver l'ensemble des références à un tableau ou une figure dans view
     # regex pour les labels
     tbl_reg = re.compile("^\w*:(.*?){#(tbl):([a-zA-Z0-9-_]*)?}")
-    fig_reg = re.compile("^.*\!\[(.*?)\]\(.*?\)\s*{#(fig):([a-zA-Z0-9-_]*)?}")
+    fig_reg = re.compile("^.*\!\[(.*?)\]\(.*?\)\s*{.*?#(fig):([a-zA-Z0-9-_]*)?.*?}")
     eq_reg = re.compile("^\${2}(.*)\${2}\s*{#(eq):(.*?)}")
     code_reg = re.compile("^(?:`{3}|~{3}){#(lst):(\w*).*caption=\"(.*)\"}")
     sec_reg = re.compile("^(#+.*?){#(sec):(.*?)}")
