@@ -21,7 +21,7 @@ def find_md_files(view):
     return(md_files, dirname, name)
 
 
-def get_labels(view):
+def get_labels(view,fn):
     # trouver l'ensemble des références à un tableau ou une figure dans view
     # regex pour les labels
     tbl_reg = re.compile("^\w*:(.*?){#(tbl):([a-zA-Z0-9-_]*)?}")
@@ -33,7 +33,7 @@ def get_labels(view):
     if isinstance(view, sublime.View):
         content = view.split_by_newlines(sublime.Region(0, view.size()))
         print(type(content[0]))
-    else:
+    elif isinstance(view, str):
         with open(view) as f:
             content = f.readlines()
     labels = []
@@ -58,7 +58,8 @@ def get_labels(view):
             labels.append({
                 "caption": caption.strip(),
                 "genre": genre,
-                "label": label
+                "label": label,
+                "file": fn
                 })
     return(labels)
 
@@ -91,12 +92,13 @@ class PandocCrossrefCiteCommand(sublime_plugin.TextCommand):
         if not doc_is_markdown and restrict_to_markdown:
             return
 
-        completions = get_labels(view)
+        md_files, dirname, name = find_md_files(view)
+
+        completions = get_labels(view,name + " (current file)")
         if g.get("pandoc_crossref_multifile"):
-            md_files, dirname, name = find_md_files(view)
             for f in md_files:
                 p = os.path.join(dirname, f)
-                completions += get_labels(p)
+                completions += get_labels(p,f)
 
 
         def on_done(i):
@@ -112,5 +114,5 @@ class PandocCrossrefCiteCommand(sublime_plugin.TextCommand):
 
 
 
-        completion_strings = [entry['genre'] + " : " + entry['caption'] + " (" + entry['label'] + ")" for entry in completions]
+        completion_strings = [entry['file'] + "_" + entry['genre'] + " : " + entry['caption'] + " (" + entry['label'] + ")" for entry in completions]
         view.window().show_quick_panel(completion_strings, on_done)
