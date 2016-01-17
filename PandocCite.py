@@ -128,7 +128,7 @@ class PandocCiteCommand(sublime_plugin.TextCommand):
         # Prefs
         g = sublime.load_settings("PandocTools.sublime-settings")
         cite_panel_format = g.get("cite_panel_format", ["{title} ({keyword})", "{author}"])
-        restrict_to_markdown = g.get("PandocCite_restrict", "True") 
+        restrict_to_markdown = g.get("pandoc_cite_restrict") 
 
         ## Attention, ceci dépend de la coloration syntaxique utilisée
         doc_is_markdown = view.score_selector(point,"text.markdown")

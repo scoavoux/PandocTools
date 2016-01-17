@@ -1,4 +1,5 @@
 {
 	"bibfiles": ["/home/yate/Documents/Bibliographie/biblio.bib"],
-    "cite_panel_format": ["{author_short} {year} - {title_short} ({keyword})","{journal} "]
+    "cite_panel_format": ["{author_short} {year} - {title_short} ({keyword})","{journal} "],
+    "pandoc_cite_restrict": "True"
 }
