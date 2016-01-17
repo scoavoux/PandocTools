@@ -30,10 +30,18 @@ def get_labels(view):
     code_reg = re.compile("^(?:`{3}|~{3}){#(lst):(\w*).*caption=\"(.*)\"}")
     sec_reg = re.compile("^(#+.*?){#(sec):(.*?)}")
     # récupérer l'ensemble du texte
-    content = view.split_by_newlines(sublime.Region(0, view.size()))
+    if isinstance(view, sublime.View):
+        content = view.split_by_newlines(sublime.Region(0, view.size()))
+        print(type(content[0]))
+    else:
+        with open(view) as f:
+            content = f.readlines()
     labels = []
     for elmt in content:
-        line = view.substr(elmt)
+        if isinstance(view, sublime.View):
+            line = view.substr(elmt)
+        else:
+            line = elmt
         match = tbl_reg.match(line)
         if not match:
             match = fig_reg.match(line)
@@ -73,7 +81,6 @@ class PandocCrossrefCiteCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         view = self.view
         point = view.sel()[0].b
-        completions = get_labels(view)
 
         g = sublime.load_settings("PandocTools.sublime-settings")
         restrict_to_markdown = g.get("pandoc_cite_restrict")
@@ -83,6 +90,14 @@ class PandocCrossrefCiteCommand(sublime_plugin.TextCommand):
 
         if not doc_is_markdown and restrict_to_markdown:
             return
+
+        completions = get_labels(view)
+        if g.get("pandoc_crossref_multifile"):
+            md_files, dirname, name = find_md_files(view)
+            for f in md_files:
+                p = os.path.join(dirname, f)
+                completions += get_labels(p)
+
 
         def on_done(i):
             if i < 0:
