@@ -386,7 +386,7 @@
 			<key>comment</key>
 			<string>List</string>
 			<key>match</key>
-			<string>^ ?([-*] |\d+[.\-)])</string>
+			<string>^ ?([-*] |\d+[.\-)]|[(]\d+[)])</string>
 			<key>name</key>
 			<string>markup.list</string>
 		</dict>
@@ -394,7 +394,7 @@
 			<key>comment</key>
 			<string>List2</string>
 			<key>match</key>
-			<string>^  +([-*] |\d+[.\-)])</string>
+			<string>^  +([-*] |\d+[.\-)]|[(]\d+[)])</string>
 			<key>name</key>
 			<string>markup.list.2</string>
 		</dict>

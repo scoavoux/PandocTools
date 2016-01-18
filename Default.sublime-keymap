@@ -133,7 +133,7 @@
         [
             { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
-            { "key": "preceding_text", "operator": "regex_match", "operand": "^(\\s*)([+*-]|\\d+[.)]|#\\.) .+", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^(\\s*)([+*-]|\\d+[.]|[(())]\\d+[)]|#\\.) .+", "match_all": true },
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
         ]
     },
@@ -153,7 +153,7 @@
         [
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
             { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
-            { "key": "preceding_text", "operator": "regex_match", "operand": "^(\\s*)([+*-]|\\d+[.)]|#\\.) ?", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^(\\s*)([+*-]|\\d+[.]|[(())]?\\d+[)]|#\\.) ?", "match_all": true },
             { "key": "selector", "operator": "not_equal", "operand": "punctuation.definition.string.begin", "match_all": true },
             { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.double - punctuation.definition.string.end", "match_all": true },
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
@@ -165,7 +165,7 @@
         [
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
             { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
-            { "key": "preceding_text", "operator": "regex_match", "operand": "^(\\s*)([+*-]|\\d+[.)]|#\\.) ", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^(\\s*)([+*-]|\\d+[.]|[(())]?\\d+[)]|#\\.) ", "match_all": true },
             { "key": "selector", "operator": "not_equal", "operand": "punctuation.definition.string.begin", "match_all": true },
             { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.double - punctuation.definition.string.end", "match_all": true },
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
@@ -176,7 +176,7 @@
         [
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
             { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
-            { "key": "preceding_text", "operator": "regex_match", "operand": "^(\\s*)([>+*-]|\\d+[.)]|#\\.) ", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^(\\s*)([>+*-]|\\d+[.]|[(())]?\\d+[)]|#\\.) ", "match_all": true },
             { "key": "selector", "operator": "not_equal", "operand": "punctuation.definition.string.begin", "match_all": true },
             { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.double - punctuation.definition.string.end", "match_all": true },
             { "key": "selector", "operator": "equal", "operand": "text.markdown" }
