@@ -81,12 +81,12 @@ def prefilter_completions(point,line,unfiltered):
     # Comme on veut matcher depuis la fin de la ligne, 
     # On renverse ligne et regex
     reversed_line = line[::-1]
-    cite_trigger = re.compile("([^,^;]*?@?)([;,].+?\[|\[)")
+    cite_trigger = re.compile("([^,^;]*?@?)([;,][^\]]+?\[|\[)")
                             # First group : (the key)
                             # Anything that isn't a comma or a semicolon (greedy)
                             # Followed by a facultative "@"
                             # Second group :
-                            # A semicolon or comma followed  by something (greedy) and a [
+                            # A semicolon or comma followed  by something that's not a ] (greedy) and a [
                             # or just a [
     print(cite_trigger)
 
@@ -96,10 +96,11 @@ def prefilter_completions(point,line,unfiltered):
         # On récupère le groupe qui constitue la clé
         # Le second groupe contient ";(...)[" ou '[', il est inutile
         key = match.groups()[0][::-1]
-        print(match.groups()[0])
+        print(match.groups())
 
-        # On calcule le point qui débutera la region a remplacer (arobase)
-        point = point-len(key)
+        if match.groups()[1] :
+            # On calcule le point qui débutera la region a remplacer (arobase)
+            point = point-len(key)
 
         # L'arobase ne nous sert plus à rien
         key = key.lstrip("@")
