@@ -10,6 +10,14 @@
 	<dict>
 		<key>showInSymbolList</key>
 		<string>1</string>
+		<key>symbolTransformation</key>
+			<string>
+			s/\s*#*\s*\z//g;			# strip trailing space and #'s
+			s/(?&lt;=#)#/ /g;			# change all but first # to m-space
+			s/^#( *)\s+(.*)/$1$2/;		# strip first # and space before title
+			s/^(.*?)({.*?}\s*)$/$1/;	# strip {properties}
+			</string>
+
 	</dict>
 	<key>uuid</key>
 	<string>0A0DA1FC-59DE-4FD9-9A2C-63C6811A3C39</string>
