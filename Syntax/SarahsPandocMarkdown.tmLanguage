@@ -306,6 +306,25 @@
 			<string>punctuation.definition.italic.markdown</string>
 		</dict>
 		<dict>
+            <key>comment</key>
+            <string>Table Pandoc</string>
+            <key>begin</key>
+            <string>^[-][-]+( [-]+)+$</string>
+            <key>end</key>
+            <string>Table: </string>
+            <key>name</key>
+            <string>pandoc.table</string>
+            <key>patterns</key>
+            <array>
+                <dict>
+                    <key>match</key>
+                    <string>.+</string>
+                    <key>name</key>
+                    <string>pandoc.table.content</string>
+                </dict>
+            </array>
+		</dict>
+		<dict>
 			<key>comment</key>
 			<string>Math LaTeX</string>
 			<key>begin</key>
